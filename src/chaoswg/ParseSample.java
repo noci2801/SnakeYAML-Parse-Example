@@ -155,7 +155,7 @@ public class ParseSample {
         System.out.println( "###" );
         System.out.println( yaml.dump( data2 ));
         System.out.println( "###  "+data2.getMacAddressen().size() );
-        System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
+        //System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
         data2.getMacAddressen().forEach((nr, dat) -> {
             System.out.println( "###"+nr+">"+dat.mac+" "+dat.getName() );
         });
