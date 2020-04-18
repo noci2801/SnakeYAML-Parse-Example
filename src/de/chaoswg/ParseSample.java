@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chaoswg;
+package de.chaoswg;
 
 /**
  *
  * @author Schmull
  */
-import de.chaoswg.ChaosTools;
 import de.chaoswg.ChaosTools.DeaultSnakeYamal.DeaultYamlConfig;
 import static de.chaoswg.ChaosTools.DeaultSnakeYamal.loadYAMAL;
 import static de.chaoswg.ChaosTools.DeaultSnakeYamal.writeYAMAL;
@@ -22,8 +21,6 @@ import java.io.InputStream;
 import java.security.CodeSource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 
@@ -60,7 +57,7 @@ public class ParseSample {
         data.getApplications().put("test", value);
 
         //### SnakeYAMAL ###
-        Yaml yaml = null;
+        Yaml yaml;
 
         DumperOptions options=new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -139,15 +136,13 @@ public class ParseSample {
         if (yamalFile2.exists()){
             try {
                 data2 = (psDeaultYamlConfig) loadYAMAL(yamalFile2, psDeaultYamlConfig.class, options);
-                //yaml = new Yaml( new Constructor(psDeaultYamlConfig.class) , new Representer(), options );
-                //data2 = yaml.loadAs( loadYamalFile(yamalFile2), psDeaultYamlConfig.class );
-            } catch (ChaosTools.mySnakeYamal.ImportException ex) {
+            } catch (ChaosTools.ImportException ex) {
                 ex.printStackTrace();
             }
         }else{
             try {
                 writeYAMAL(yamalFile2, data2, options);
-            } catch (ChaosTools.mySnakeYamal.AndrolibException ex) {
+            } catch (ChaosTools.AndrolibException ex) {
                 ex.printStackTrace();
             }
         }
@@ -155,10 +150,11 @@ public class ParseSample {
         System.out.println( "###" );
         System.out.println( yaml.dump( data2 ));
         System.out.println( "###  "+data2.getMacAddressen().size() );
-        System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
+        //System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
         data2.getMacAddressen().forEach((nr, dat) -> {
             System.out.println( "###"+nr+">"+dat.mac+" "+dat.getName() );
         });
+        System.out.println(data2.toString());
     }
 
     public static class psDeaultYamlConfig extends DeaultYamlConfig{
@@ -189,6 +185,19 @@ public class ParseSample {
             public String getName() {return name;}
             public void setName(String name) {this.name = name;}
             
+            @Override public String toString() {
+                    return "psServiceConfigMAC{" +
+                                    "mac=" + mac + " " +
+                                    "name=" + name +
+                                    '}';
+            }
+        }
+        
+        @Override public String toString() {
+                return super.toString() +"\n"+ "psDeaultYamlConfig{" +
+                                "ps=" + ps + " " +
+                                "macAddressen=" + macAddressen +
+                                '}';
         }
     }
 
