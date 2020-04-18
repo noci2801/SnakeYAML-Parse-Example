@@ -30,11 +30,13 @@ public class ParseSample {
     private static File jarDir;
 
 	public static void main(String... a) {
+            //### getPhat ###
             try{
                 CodeSource codeSource = ParseSample.class.getProtectionDomain().getCodeSource();
                 File jarFile = new File(codeSource.getLocation().toURI().getPath());
                 jarDir = jarFile;
             }catch (Exception ex){}
+            //### setFile ###
             File yamalFile = new File(jarDir,"config.yml");
             System.out.println("Load Config  DIR: "+jarDir.getAbsolutePath());
             System.out.println("Load Config FILE: "+yamalFile.getAbsolutePath());
@@ -50,6 +52,7 @@ public class ParseSample {
             
             data.getApplications().put("Test", value);
             
+            //### SnakeYAMAL ###
             Yaml yaml = null;
 
             DumperOptions options=new DumperOptions();
@@ -76,6 +79,7 @@ public class ParseSample {
                         input = new FileInputStream(yamalFile);
                 } catch (FileNotFoundException e) {
                         e.printStackTrace();
+                        //throw new ImportException("Failed to load yaml object");
                 }
                 data = yaml.loadAs( input, YamlConfig.class );
             }else{
