@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chaoswg;
+package de.chaoswg;
 
 /**
  *
  * @author Schmull
  */
-import de.chaoswg.ChaosTools;
-import de.chaoswg.ChaosTools.DeaultSnakeYamal.DeaultYamlConfig;
 import static de.chaoswg.ChaosTools.DeaultSnakeYamal.loadYAMAL;
 import static de.chaoswg.ChaosTools.DeaultSnakeYamal.writeYAMAL;
 import java.io.File;
@@ -20,10 +18,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 
@@ -60,7 +58,7 @@ public class ParseSample {
         data.getApplications().put("test", value);
 
         //### SnakeYAMAL ###
-        Yaml yaml = null;
+        Yaml yaml;
 
         DumperOptions options=new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -109,7 +107,9 @@ public class ParseSample {
         System.out.println( "###" );
         System.out.println( yaml.dump( data ));
 
+        //##############
         //### Ver II ###
+        //##############
 
         //### Manuelle Daten ###
         psDeaultYamlConfig data2 = new psDeaultYamlConfig();
@@ -132,6 +132,7 @@ public class ParseSample {
 
         data2.setMacAddressen(macAddressen);
 
+        //### File ###
         File yamalFile2 = new File(jarDir,"configTest.yml");
         System.out.println("Load Config  DIR: "+jarDir.getAbsolutePath());
         System.out.println("Load Config FILE: "+yamalFile2.getAbsolutePath());
@@ -139,15 +140,13 @@ public class ParseSample {
         if (yamalFile2.exists()){
             try {
                 data2 = (psDeaultYamlConfig) loadYAMAL(yamalFile2, psDeaultYamlConfig.class, options);
-                //yaml = new Yaml( new Constructor(psDeaultYamlConfig.class) , new Representer(), options );
-                //data2 = yaml.loadAs( loadYamalFile(yamalFile2), psDeaultYamlConfig.class );
-            } catch (ChaosTools.mySnakeYamal.ImportException ex) {
+            } catch (ChaosTools.ImportException ex) {
                 ex.printStackTrace();
             }
         }else{
             try {
                 writeYAMAL(yamalFile2, data2, options);
-            } catch (ChaosTools.mySnakeYamal.AndrolibException ex) {
+            } catch (ChaosTools.AndrolibException ex) {
                 ex.printStackTrace();
             }
         }
@@ -155,41 +154,68 @@ public class ParseSample {
         System.out.println( "###" );
         System.out.println( yaml.dump( data2 ));
         System.out.println( "###  "+data2.getMacAddressen().size() );
-        System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
+        //System.out.println( "###  "+data2.getMacAddressen().get(0).getMac() );
         data2.getMacAddressen().forEach((nr, dat) -> {
-            System.out.println( "###"+nr+">"+dat.mac+" "+dat.getName() );
+            System.out.println( "###"+nr+">"+dat.getMac()+" "+dat.getName() );
         });
-    }
+        System.out.println(data2.toString());
 
-    public static class psDeaultYamlConfig extends DeaultYamlConfig{
-        public psDeaultYamlConfig() {
-            ps = false;
-            macAddressen = new HashMap<>();
-        }
+        //###############
+        //### Ver III ###
+        //###############
+
+        //### Manuelle Daten ###
+        MultieYamlConfig data3 = new MultieYamlConfig();
+        MultieConfig multieConfig = new MultieConfig();
+        List<Long> adminList = new ArrayList<>();
+        List<MultieConfigComando> comanos = new ArrayList<>();
+        MultieConfigComando comando = new MultieConfigComando();
         
-        private boolean ps;
-        public boolean getPs() {return ps;}
-        public void setPs(boolean ps) {this.ps = ps;}
+        data3.setAuthor("noci");
+        data3.setDebug(true);
+        data3.setVersion("0.0.0");
         
-        private Map<Integer, psServiceConfigMAC> macAddressen;
-        public Map<Integer, psServiceConfigMAC> getMacAddressen() {return macAddressen;}
-        public void setMacAddressen(Map<Integer, psServiceConfigMAC> macAddressen) {this.macAddressen = macAddressen;}
+        adminList.add(1000000L);
+        adminList.add(2000000L);
         
-        public static class psServiceConfigMAC {
-            public psServiceConfigMAC() {
-                this.name = null;
-                this.mac = null;
+        multieConfig.setAdminList(adminList);
+        multieConfig.setPlayerUID(2801L);
+        multieConfig.setUserMax(25);
+        
+        data3.setMultieConfig(multieConfig);
+        
+        comando.setComando("list");
+        comando.setDebugLv(0);
+        comando.setMsgDebug("LISTE - Run");
+        Map<String, String> message=new HashMap<>();
+        message.put("de", "Liste anzeigen");
+        message.put("en", "show List");
+        comando.setMessage(message);
+        
+        comanos.add(comando);
+        data3.setComanos(comanos);
+        
+        //### File ###
+        File yamalFile3 = new File(jarDir,"configTestPlugin.yml");
+        System.out.println("Load Config  DIR: "+jarDir.getAbsolutePath());
+        System.out.println("Load Config FILE: "+yamalFile3.getAbsolutePath());
+
+        if (yamalFile3.exists()){
+            try {
+                data3 = (MultieYamlConfig) loadYAMAL(yamalFile3, MultieYamlConfig.class, options);
+            } catch (ChaosTools.ImportException ex) {
+                ex.printStackTrace();
             }
-
-            private String mac;
-            public String getMac() {return mac;}
-            public void setMac(String mac) {this.mac = mac;}
-            
-            private String name;
-            public String getName() {return name;}
-            public void setName(String name) {this.name = name;}
-            
+        }else{
+            try {
+                writeYAMAL(yamalFile3, data3, options);
+            } catch (ChaosTools.AndrolibException ex) {
+                ex.printStackTrace();
+            }
         }
+        
+        System.out.println( "###" );
+        System.out.println( yaml.dump( data3 ));
     }
 
 }
