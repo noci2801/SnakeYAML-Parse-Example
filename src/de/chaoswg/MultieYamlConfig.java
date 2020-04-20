@@ -30,7 +30,7 @@ public class MultieYamlConfig {
     public void setAuthor(String author) {this.author = author;}
 
     private boolean DEBUG;
-    public boolean getDebug() {return DEBUG;}
+    public boolean isDebug() {return DEBUG;}
     public void setDebug(boolean debug) {this.DEBUG = debug;}
 
     private MultieConfig multieConfig;

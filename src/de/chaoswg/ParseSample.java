@@ -31,7 +31,11 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.representer.Representer;
 
 public class ParseSample {
-    //###https://gist.github.com/marceldiass/f1d0e25671d7f47b24271f15c1066ea3
+    /**
+     * https://gist.github.com/marceldiass/f1d0e25671d7f47b24271f15c1066ea3
+     * oder neu in RW
+     * http://theoryapp.com/parse-json-in-java/
+    */ 
     private static File jarDir;
 
     public static void main(String... a) {
