@@ -14,9 +14,11 @@ import java.util.List;
  */
 public class MultieConfig {
     public MultieConfig() {
+        this.userMax = -1;
+    }
+    public void MultieConfigIni() {
         this.playerUID = 0L;
         this.adminList = new ArrayList<>();
-        this.userMax = -1;
     }
 
     private Long playerUID;
