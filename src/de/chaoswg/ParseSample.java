@@ -177,6 +177,7 @@ public class ParseSample {
         
         data3.setAuthor("noci");
         data3.setDebug(true);
+        //data3.setDebug(3);
         data3.setVersion("0.0.0");
         
         adminList.add(1000000L);

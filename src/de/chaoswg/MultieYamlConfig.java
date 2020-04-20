@@ -33,6 +33,10 @@ public class MultieYamlConfig {
     public boolean isDebug() {return DEBUG;}
     public void setDebug(boolean debug) {this.DEBUG = debug;}
 
+    //private int debug;
+    //void setDebug(int debug) {this.debug=debug;}
+    //public int getDEBUB() {return debug;}
+    
     private MultieConfig multieConfig;
     public MultieConfig getMultieConfig() {return multieConfig;}
     public void setMultieConfig(MultieConfig multieConfig) {this.multieConfig = multieConfig;}
