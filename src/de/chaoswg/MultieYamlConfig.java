@@ -29,9 +29,13 @@ public class MultieYamlConfig {
     public String getAuthor() {return author;}
     public void setAuthor(String author) {this.author = author;}
 
-    private boolean DEBUG;
-    public boolean isDebug() {return DEBUG;}
-    public void setDebug(boolean debug) {this.DEBUG = debug;}
+    private Object DEBUG;
+    public void setDebug(Object debug) {this.DEBUG=debug;}
+    public Object getDebug() {return DEBUG;}
+
+    //private boolean DEBUG;
+    //public boolean isDebug() {return DEBUG;}
+    //public void setDebug(boolean debug) {this.DEBUG = debug;}
 
     //private int debug;
     //void setDebug(int debug) {this.debug=debug;}
@@ -53,6 +57,11 @@ public class MultieYamlConfig {
                             "debug=" + DEBUG + " " +
                             "MultieConfig=" + multieConfig +
                             '}';
+    }
+    
+    void printlnDebug(int level, String string) {
+        if( ( DEBUG instanceof Boolean && (boolean)DEBUG) || ( DEBUG instanceof Integer && (int)DEBUG>=level) )
+            System.out.println( string );
     }
 
 }
